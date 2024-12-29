@@ -1,41 +1,63 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Backend URLs
 const BASE_URL = 'https://to-do-rcm0.onrender.com/auth';
 
-// Async actions
-export const signupAsync = createAsyncThunk(
-  'user/signupAsync',
-  async (userData, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/signup`, userData);
-      return response.data; // Backend should send success message or user details
-    } catch (error) {
-      return rejectWithValue(error.response?.data || 'Signup failed');
-    }
-  }
-);
+// Define the state structure
+interface UserState {
+  isLogin: boolean;
+  loginEmail: string | null;
+  token: string | null;
+  error: string | null;
+}
 
-export const loginAsync = createAsyncThunk(
-  'user/loginAsync',
-  async (credentials, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/login`, credentials);
-      return response.data; // Backend should return token and user email
-    } catch (error) {
-      return rejectWithValue(error.response?.data || 'Login failed');
-    }
-  }
-);
+// Define the API response types
+interface LoginResponse {
+  email: string;
+  token: string;
+}
 
-const initialState = {
+interface SignupResponse {
+  message: string;
+}
+
+// Define the state type
+const initialState: UserState = {
   isLogin: false,
   loginEmail: null,
   token: null,
   error: null,
 };
 
+// Async actions
+export const signupAsync = createAsyncThunk<
+  SignupResponse,
+  { name: string; email: string; password: string }, // Payload type for the signup action
+  { rejectValue: string } // Reject value type
+>('user/signupAsync', async (userData, { rejectWithValue }) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/signup`, userData);
+    return response.data; // Ensure this matches your API response
+  } catch (error: any) {
+    return rejectWithValue(error.response?.data || 'Signup failed');
+  }
+});
+
+export const loginAsync = createAsyncThunk<
+  LoginResponse,
+  { email: string; password: string }, // Payload type for the login action
+  { rejectValue: string } // Reject value type
+>('user/loginAsync', async (credentials, { rejectWithValue }) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/login`, credentials);
+    return response.data;
+  } catch (error: any) {
+    return rejectWithValue(error.response?.data || 'Login failed');
+  }
+});
+
+// Slice definition
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -44,6 +66,7 @@ const userSlice = createSlice({
       state.isLogin = false;
       state.loginEmail = null;
       state.token = null;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -53,10 +76,10 @@ const userSlice = createSlice({
         alert('Signup successful! You can now log in.');
       })
       .addCase(signupAsync.rejected, (state, action) => {
-        state.error = action.payload;
+        state.error = action.payload || 'Signup failed';
         alert(`Signup failed: ${state.error}`);
       })
-      .addCase(loginAsync.fulfilled, (state, action) => {
+      .addCase(loginAsync.fulfilled, (state, action: PayloadAction<LoginResponse>) => {
         const { email, token } = action.payload;
         state.isLogin = true;
         state.loginEmail = email;
@@ -64,7 +87,7 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(loginAsync.rejected, (state, action) => {
-        state.error = action.payload;
+        state.error = action.payload || 'Login failed';
         alert(`Login failed: ${state.error}`);
       });
   },
