@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Backend URLs
-const BASE_URL = 'http://localhost:3000/auth';
+const BASE_URL = 'https://to-do-rcm0.onrender.com/auth';
 
 // Async actions
 export const signupAsync = createAsyncThunk(

@@ -32,7 +32,7 @@ function TaskList() {
             console.log("Token in fetchTasks:", token);
 
             const response = await axios.get(
-                `http://localhost:3000/task/tasks`,
+                `https://to-do-rcm0.onrender.com/task/tasks`,
                 {
                     headers: {
                         authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ function TaskList() {
             console.log("add task");
             console.log("Task being sent:", newTask);
             await axios.post(
-                `http://localhost:3000/task/tasks`,
+                `https://to-do-rcm0.onrender.com/task/tasks`,
                 newTask,
                 {
                     headers: {
@@ -81,7 +81,7 @@ function TaskList() {
         try {
             for (const taskId of selectedTasks) {
                 await axios.delete(
-                    `${import.meta.env.BACKEND_PORT}/tasks/task/${taskId}`,
+                    `https://to-do-rcm0.onrender.com/tasks/task/${taskId}`,
                     {
                         headers: {
                             authorization: token,

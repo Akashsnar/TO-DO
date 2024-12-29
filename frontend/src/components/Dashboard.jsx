@@ -11,7 +11,7 @@ const Dashboard = () => {
 
   const fetchSummary = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/task/task-summary", {
+      const response = await axios.get("https://to-do-rcm0.onrender.com/task/task-summary", {
         headers: {
           'authorization': `Bearer ${token}`,
           'X-Custom-Header': 'value',
