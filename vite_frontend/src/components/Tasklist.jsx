@@ -32,7 +32,7 @@ function TaskList() {
             console.log("Token in fetchTasks:", token);
 
             const response = await axios.get(
-                `https://to-do-rcm0.onrender.com/task/tasks`,
+                `${import.meta.env.VITE_BACKEND_URL}/task/tasks`,
                 {
                     headers: {
                         authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ function TaskList() {
             console.log("add task");
             console.log("Task being sent:", newTask);
             await axios.post(
-                `https://to-do-rcm0.onrender.com/task/tasks`,
+                `${import.meta.env.VITE_BACKEND_URL}/task/tasks`,
                 newTask,
                 {
                     headers: {
@@ -81,7 +81,7 @@ function TaskList() {
         try {
             for (const taskId of selectedTasks) {
                 await axios.delete(
-                    `https://to-do-rcm0.onrender.com/tasks/task/${taskId}`,
+                    `${import.meta.env.VITE_BACKEND_URL}/tasks/task/${taskId}`,
                     {
                         headers: {
                             authorization: token,
@@ -120,7 +120,6 @@ function TaskList() {
             <header>
                 <h1>Task List</h1>
                 <div className="flex justify-between items-center">
-                    {/* Left Section: Buttons */}
                     <div className="flex gap-4">
                         <button
                             className="bg-transparent border border-blue-900 text-blue-900 px-4 py-2 rounded hover:bg-blue-100"
@@ -136,8 +135,6 @@ function TaskList() {
                             Delete selected
                         </button>
                     </div>
-
-                    {/* Right Section: Filters */}
                     <div className="flex gap-4">
                         <select
                             className="border border-gray-300 rounded px-4 py-2 bg-white focus:ring focus:ring-blue-300"
@@ -382,7 +379,6 @@ function TaskList() {
                         />
                     </div>
 
-                    {/* End Time Input */}
                     <div>
                         <label className="block text-sm font-medium mb-1">End Time:</label>
                         <input

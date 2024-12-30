@@ -1,16 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Backend URLs
-const BASE_URL = 'https://to-do-rcm0.onrender.com/auth';
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/auth`;
 
-// Async actions
 export const signupAsync = createAsyncThunk(
   'user/signupAsync',
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${BASE_URL}/signup`, userData);
-      return response.data; // Backend should send success message or user details
+      return response.data; 
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Signup failed');
     }
@@ -22,7 +20,7 @@ export const loginAsync = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${BASE_URL}/login`, credentials);
-      return response.data; // Backend should return token and user email
+      return response.data; 
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Login failed');
     }

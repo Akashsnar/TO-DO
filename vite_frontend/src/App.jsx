@@ -13,9 +13,11 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const { isLogin } = useSelector((state) => state.user);
+  
 
   return (
     <BrowserRouter>
+
       <Navbar />
       <Routes>
         <Route path="/" element={isLogin ? <Navigate to="/dashboard" replace /> : <SignupLogin />} />
