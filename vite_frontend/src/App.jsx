@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from './components/Navbar';
 import SignupLogin from "./components/SignupLogin";
 import Dashboard from './components/Dashboard';
-import TaskList from './components/TaskList';
+import TaskList from './components/Tasklist';
 import './App.css'
 
 const ProtectedRoute = ({ children }) => {
