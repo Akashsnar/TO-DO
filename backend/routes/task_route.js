@@ -9,12 +9,15 @@ router.post('/tasks', authenticate, async (req, res) => {
     console.log("it called");
     
     try {
-        const { title, starttime, endtime, priority } = req.body;
+        const { title, starttime, endtime, priority , task_status} = req.body;
+        console.log(task_status);
+        
         const task = new Task({ 
             title, 
             starttime, 
             endtime, 
             priority, 
+            task_status,
             user: req.user.id 
         });
         await task.save();

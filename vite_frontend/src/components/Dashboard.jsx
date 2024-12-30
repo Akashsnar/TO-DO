@@ -67,8 +67,8 @@ const Dashboard = () => {
 
     setStats({
       totalTasks: tasks.length,
-      completedCount,
-      pendingCount,
+      completedCount: completedCount,
+      pendingCount: pendingCount,
       avgTimePerTask: avgTimePerTask.toFixed(2), 
       totalTimeCompleted: (totalTimeCompleted / (1000 * 60 * 60)).toFixed(2), 
       totalTimeLapsed: (totalTimeLapsed / (1000 * 60 * 60)).toFixed(2), 
@@ -96,13 +96,13 @@ const Dashboard = () => {
               </div>
               <div className="text-center">
                 <p className="text-4xl font-bold text-blue-600">
-                  {(stats.completedCount/stats.totalTasks)*100}%
+                  {((stats.completedCount/stats.totalTasks)*100).toFixed(2)}%
                 </p>
                 <p className="text-gray-600">Tasks completed</p>
               </div>
               <div className="text-center">
                 <p className="text-4xl font-bold text-blue-600">
-                  {(stats.pendingCount/stats.totalTasks)*100}%
+                  {((stats.pendingCount/stats.totalTasks)*100).toFixed(2)}%
                 </p>
                 <p className="text-gray-600">Tasks pending</p>
               </div>
@@ -141,7 +141,7 @@ const Dashboard = () => {
               </div>
 
               <table className="w-full border-collapse border border-gray-300 text-sm">
-                <thead className="bg-gray-100">
+                <thead className="bg-gray-700 text-white">
                   <tr>
                     <th className="border border-gray-300 px-4 py-2">Task priority</th>
                     <th className="border border-gray-300 px-4 py-2">Pending tasks</th>
